@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>For You</title>
+  <style>
+    body {
+      background-color: #fdf6e3;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 0;
+      padding: 20px;
+    }
+    .hidden {
+      display: none;
+    }
+    /* Animated Heart using an SVG and CSS animation */
+    #heart {
+      width: 150px;
+      height: 150px;
+      margin: 20px auto;
+      background-image: url('data:image/svg+xml;utf8,<svg fill="red" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M462.3 62.7c-54.5-46.4-136-38.3-178.7 13.9L256 96l-27.6-19.4C186.7 24.4 105.2 16.3 50.7 62.7-10.6 111.6-3.2 197.8 43 249.8l175.5 177.4c12 12.2 28.3 18.8 45.5 18.8 17.2 0 33.5-6.6 45.5-18.8L469 249.8c46.2-52 53.7-138.2-6.7-187.1z"/></svg>');
+      background-size: contain;
+      background-repeat: no-repeat;
+      animation: pulse 1s infinite;
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+    .button {
+      font-size: 1.2em;
+      margin: 10px;
+      padding: 10px 20px;
+      cursor: pointer;
+    }
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+  </style>
+</head>
+<body>
+  <div id="container">
+    <!-- Slide 1: Asking Screen -->
+    <div id="askSlide">
+      <div id="heart"></div>
+      <h1 id="question">Will you be my Valentine?</h1>
+      <button id="yesBtn" class="button">Yes</button>
+      <button id="noBtn" class="button">No</button>
+    </div>
+
+    <!-- Slide 2: Thank-You/GIF Screen (Yes response) -->
+    <div id="yesSlide" class="hidden">
+      <img src="https://media.tenor.com/LRDMe1QpqFYAAAAC/cat-cute.gif" alt="Cute GIF">
+      <h1>I LOVVVEEEEEEEEEEEE YOUUUUUUUUU soooooooo muchhhhhhhhh BACHAAAAAAAA!!!!!!</h1>
+    </div>
+
+    <!-- Slide 3: Final Slide (After 6 No clicks) -->
+    <div id="finalSlide" class="hidden">
+      <img src="https://media1.tenor.com/images/f061c18854fe28120ed76c9e03002937/tenor.gif?itemid=18191422" alt="Final GIF">
+      <h1>Thike yaarrr mat kroo aap... Main hi chla jaata</h1>
+    </div>
+  </div>
+
+  <script>
+    let noClickCount = 0;
+    const noMessages = [
+      "PLeassseeeee",
+      "Jannuuuu krdo na YES",
+      "Maannn bhi jaoo ab",
+      "Itnaaa bhi kya bhaavv khaa rhe yaaaarrrrr",
+      "Sweettuuuuu... say YESS naaa"
+    ];
+
+    const askSlide = document.getElementById("askSlide");
+    const yesSlide = document.getElementById("yesSlide");
+    const finalSlide = document.getElementById("finalSlide");
+    const questionEl = document.getElementById("question");
+    const yesBtn = document.getElementById("yesBtn");
+    const noBtn = document.getElementById("noBtn");
+
+    yesBtn.addEventListener("click", () => {
+      askSlide.classList.add("hidden");
+      yesSlide.classList.remove("hidden");
+    });
+
+    noBtn.addEventListener("click", () => {
+      noClickCount++;
+      if (noClickCount < 6) {
+        // Randomize the message for the question.
+        const msg = noMessages[Math.floor(Math.random() * noMessages.length)];
+        questionEl.innerText = msg;
+        // Enlarge the "Yes" button slightly.
+        const currentSize = parseFloat(window.getComputedStyle(yesBtn).fontSize);
+        yesBtn.style.fontSize = (currentSize + 2) + "px";
+      } else {
+        // On the 6th No click, show the final slide.
+        askSlide.classList.add("hidden");
+        finalSlide.classList.remove("hidden");
+      }
+    });
+  </script>
+</body>
+</html>
